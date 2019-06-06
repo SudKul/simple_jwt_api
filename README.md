@@ -140,10 +140,15 @@ kubectl get nodes
 7. Create an IAM role that CodeBuild can use to interact with EKS
 ```bash
 ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+
 TRUST="{ \"Version\": \"2012-10-17\", \"Statement\": [ { \"Effect\": \"Allow\", \"Principal\": { \"AWS\": \"arn:aws:iam::${ACCOUNT_ID}:root\" }, \"Action\": \"sts:AssumeRole\" } ] }"
-echo '{ "Version": "2012-10-17", "Statement": [ { "Effect": "Allow", "Action": "eks:Describe*", "Resource": "*" } ] }' > /tmp/iam-role-policy 
-aws iam create-role --role-name UdacityFlaskDeployCodeBuildKubectlRole --assume-role-policy-document "$TRUST" --output text --query 'Role.Arn'
-aws iam put-role-policy --role-name --policy-name UdacityFlaskDeployCodeBuildKubectlRole eks-describe --policy-document file:///tmp/iam-role-policy 
+
+echo '{ "Version": "2012-10-17", "Statement": [ { "Effect": "Allow", "Action": [ "eks:Describe*", "ssm:GetParameters" ], "Resource": "*" } ] }' > /tmp/iam-role-policy 
+
+aws iam create-role --role-name UdacityFlaskDeployCBKubectlRole --assume-role-policy-document "$TRUST" --output text --query 'Role.Arn'
+
+aws iam put-role-policy --role-name UdacityFlaskDeployCBKubectlRole --policy-name eks-describe --policy-document file:///tmp/iam-role-policy
+
 ```
 8. Grant role access to the cluster.
 The 'aws-auth ConfigMap' is used to grant role based access control to your cluster. 
@@ -157,10 +162,17 @@ A Github acces token will allow CodePipeline to monitor when a repo is changed. 
 This token should be saved somewhere that is secure.
 
 10. TODO add buildspec.yml 
-11. TODO: modify CodePipeline template
+11.  Put secrets into AWS Parameter Store 
+```
+aws ssm put-parameter --name JWT_SECRET --value "YourJWTSecret" --type SecureString
+```
+TODO: modify CodePipeline template
 
 11. Create a stack for CodePipeline
 Go the the CloudFormation service in the aws console. Press the 'Create Stack' button. Choose the 'Upload template to S3' option and upload the template modified in step 11. Press 'Next'. Give the stack a name, fill in your GitHub login and the Github access token generated in step 9. 
 TODO add image here
+
+12. Check the pipeline works
+Commit a change to the master branch of the repo. Then , in the aws console go to the CodePipeline UI. 
 
 
