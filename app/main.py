@@ -73,7 +73,6 @@ def auth():
         return jsonify({"message": "Missing parameter: password"}, 400)
     body = {'email': email, 'password': password}
 
-    #TODO change this
     user_data = body
 
     return jsonify(token=_get_jwt(user_data).decode('utf-8'))
