@@ -166,6 +166,12 @@ This token should be saved somewhere that is secure.
 ```
 aws ssm put-parameter --name JWT_SECRET --value "YourJWTSecret" --type SecureString
 ```
+
+12. Make cloudbuild role
+```
+aws iam create-role --role-name CodeBuildServiceRole --assume-role-policy-document file://create-role.json
+aws iam put-role-policy --role-name CodeBuildServiceRole --policy-name CodeBuildServiceRolePolicy --policy-document file://put-role-policy.json
+```
 TODO: modify CodePipeline template
 
 11. Create a stack for CodePipeline
