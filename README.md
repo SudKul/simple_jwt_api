@@ -128,7 +128,7 @@ The 'eksctl' tool allow interaction wth a EKS cluster from the command line. To 
 
 5. Create a EKS cluster
 ```bash
-eksctl create cluster  --name prod-06031338  --version 1.12  --nodegroup-name standard-workers  --node-type t3.nano  --nodes 3  --nodes-min 1  --nodes-max 4  --node-ami auto
+eksctl create cluster  --name simple-jwt-api-dev  --version 1.12  --nodegroup-name standard-workers  --node-type t3.nano  --nodes 3  --nodes-min 1  --nodes-max 4  --node-ami auto
 ```
 This will take some time to do. Progress can be checked by visiting the aws console and selecting EKS from the services. 
 
@@ -167,11 +167,7 @@ This token should be saved somewhere that is secure.
 aws ssm put-parameter --name JWT_SECRET --value "YourJWTSecret" --type SecureString
 ```
 
-12. Make cloudbuild role
-```
-aws iam create-role --role-name CodeBuildServiceRole --assume-role-policy-document file://create-role.json
-aws iam put-role-policy --role-name CodeBuildServiceRole --policy-name CodeBuildServiceRolePolicy --policy-document file://put-role-policy.json
-```
+
 TODO: modify CodePipeline template
 
 11. Create a stack for CodePipeline
