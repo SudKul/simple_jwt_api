@@ -20,6 +20,7 @@ phases:
         - $(aws ecr get-login --no-include-email)
         - export KUBECONFIG=$HOME/.kube/config
         - mkdir /usr/tmp
+        - chmod 777 /usr/tmp
   build:
     commands:
       - docker build --tag $REPOSITORY_URI:$TAG .
