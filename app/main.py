@@ -34,7 +34,7 @@ def _logger():
 
 
 LOG = _logger()
-LOG.debug("Starting with log level: %s", )
+LOG.debug(f"Starting with log level: {LOG_LEVEL}" )
 APP = Flask(__name__)
 
 def require_jwt(function):
@@ -54,6 +54,11 @@ def require_jwt(function):
 
         return function(*args, **kws)
     return decorated_function
+
+
+@APP.route('/', methods=['POST', 'GET'])
+def health():
+    return jsonify("Healthy")
 
 
 @APP.route('/auth', methods=['POST'])
