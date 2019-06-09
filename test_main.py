@@ -40,7 +40,7 @@ def test_auth(client):
     assert token is not None
 
 def test_content(client):
-    response = client.get('/contents', headers={"Authorization": f"Bearer {TOKEN}"})
+    response = client.get('/contents', headers={"Authorization": "Bearer %s" % TOKEN})
     assert response.status_code == 200
     assert response.json['email'] == EMAIL
 
