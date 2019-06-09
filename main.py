@@ -69,7 +69,6 @@ def auth():
     request_data = request.get_json()
     email = request_data.get('email')
     password = request_data.get('password')
-    LOG.info(f'auth method email:{email}')
     if not email:
         LOG.error("No email provided")
         return jsonify({"message": "Missing parameter: email"}, 400)
@@ -97,7 +96,6 @@ def decode_jwt():
     except: # pylint: disable=bare-except
         abort(401)
 
-    LOG.debug(f'creds data: {data}')
 
     response = {'email': data['email'],
                 'exp': data['exp'],
