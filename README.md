@@ -87,10 +87,10 @@ LOG_LEVEL=DEBUG
 4. Build a Local Docker Image
 To build a Docker image run:
 ```
-docker build -t jwt-api-test app/
+docker build -t jwt-api-test .
 ```
 5. Run the image locally, using the 'gunicorn' server:
-```bash
+```
 docker run --env-file=env_file -p 80:8080 jwt-api-test
 ```
 To use the endpoints use the same curl commands as before:
@@ -128,7 +128,7 @@ The 'eksctl' tool allow interaction wth a EKS cluster from the command line. To 
 
 5. Create a EKS cluster
 ```bash
-eksctl create cluster  --name simple-jwt-api-dev  --version 1.12  --nodegroup-name standard-workers  --node-type t3.nano  --nodes 3  --nodes-min 1  --nodes-max 4  --node-ami auto
+eksctl create cluster  --name simple-jwt-api  --version 1.12  --nodegroup-name standard-workers   --nodes 3  --nodes-min 1  --nodes-max 4  --node-ami auto
 ```
 This will take some time to do. Progress can be checked by visiting the aws console and selecting EKS from the services. 
 
@@ -178,3 +178,15 @@ TODO add image here
 Commit a change to the master branch of the repo. Then , in the aws console go to the CodePipeline UI. 
 
 
+``` 
+kubectl get services simple-jwt-api -o wide
+```
+Check EXTERNAL-IP to get url of ELB.
+
+Now use the url to test the app
+```
+
+
+export TOKEN=`curl -d '{"email":"<EMAIL>","password":"<PASSWORD>"}' -H "Content-Type: application/json" -X POST <EXTERNAL-IP URL>:80/auth  | jq -r '.token'`
+curl --request GET '<EXTERNAL-IP URL>:80/contents' -H "Authorization: Bearer ${TOKEN}" | jq 
+```
