@@ -1,7 +1,6 @@
 # Deploying Flask API
 
 ## Initial setup
-1. Go to the Github starter project: TODO: add URL
 2. Fork this project by pressing the fork buton
 3. Locally clone your Forked version. You can now begin modifying it. 
 
@@ -67,17 +66,7 @@ RUN pip install -r requirements.txt
 
 ENTRYPOINT ["gunicorn", "-b", ":8080", "main:APP"]
 ```
-FROM python:stretch
 
-COPY . /app
-WORKDIR /app
-
-RUN apt-get update -y
-RUN apt-get install -y  
-RUN pip install -r requirements.txt
-
-ENTRYPOINT ["gunicorn", "-b", ":8080", "main:APP"]
-```
 3. Create a file named 'env_file' and use it to set the environment variables which will be run locally in your container. Here we do not need the export command:
 
 ```
@@ -100,7 +89,7 @@ export TOKEN=`curl -d '{"email":"<EMAIL>","password":"<PASSWORD>"}' -H "Content-
 curl --request GET 'http://127.0.0.1:80/contents' -H "Authorization: Bearer ${TOKEN}" | jq .
 ```
 
-## Deployment to Kubernetes using CodePipeline, CodeBuild, and Lambda
+## Deployment to Kubernetes using CodePipeline and CodeBuild
 
 ### Deploy a Kubernetes Cluster
 
@@ -125,6 +114,8 @@ And use the credentials you generated in step 2. Your aws commandline tools will
 
 4. Install the 'eksctl' tool.
 The 'eksctl' tool allow interaction wth a EKS cluster from the command line. To install, follow the directions for your platform outlined here: https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html 
+
+#TODO: install kubectl https://kubernetes.io/docs/tasks/tools/install-kubectl
 
 5. Create a EKS cluster
 ```bash
@@ -190,3 +181,6 @@ Now use the url to test the app
 export TOKEN=`curl -d '{"email":"<EMAIL>","password":"<PASSWORD>"}' -H "Content-Type: application/json" -X POST <EXTERNAL-IP URL>:80/auth  | jq -r '.token'`
 curl --request GET '<EXTERNAL-IP URL>:80/contents' -H "Authorization: Bearer ${TOKEN}" | jq 
 ```
+
+## Add external id HERE
+aed16eb4389af11e9bd8e06d26d356b1-812852214.us-east-2.elb.amazonaws.com
