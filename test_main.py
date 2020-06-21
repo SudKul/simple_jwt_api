@@ -27,7 +27,7 @@ def client():
 
 def test_health(client):
     """
-    Just hit endpoint to check for error..
+    Just hit endpoint to check for error...
     """
     response = client.get('/')
     assert response.status_code == 200
