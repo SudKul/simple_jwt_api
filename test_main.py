@@ -33,7 +33,7 @@ def test_health(client):
 
 def test_auth(client):
     """
-    Testing auth endpoint
+    Testing auth endpoint.
     """
     body = {'email': EMAIL,
             'password': PASSWORD}
