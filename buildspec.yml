@@ -17,7 +17,7 @@ phases:
         #- apt-get update && apt-get -y install jq python3-pip  && pip3 install --upgrade awscli
       - python --version
       - python -m pip install --upgrade --force pip
-      - pip -v
+      - pip -V
       - apt-get update && apt-get -y install jq  && pip install --upgrade awscli
   pre_build:
       commands:
