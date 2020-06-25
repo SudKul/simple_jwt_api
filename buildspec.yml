@@ -47,7 +47,7 @@ phases:
       - echo `aws sts get-caller-identity`
       - echo $CREDENTIALS
       - echo $EKS_CLUSTER_NAME
-      - kubectl apply -f simple_jwt_api.yml
+      - kubectl apply -f simple_jwt_api.yml --role-arn $EKS_KUBECTL_ROLE_ARN
       - printf '[{"name":"simple_jwt_api","imageUri":"%s"}]' $REPOSITORY_URI:$TAG > build.json
       - pwd
       - ls
